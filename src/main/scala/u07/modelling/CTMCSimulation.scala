@@ -24,9 +24,10 @@ object CTMCSimulation:
             Event(t + Math.log(1 / rnd.nextDouble()) / sumR, choice)
 
     def traceUntil(using rnd: Random)(s0: S)(stopWhen: S => Boolean): Trace[S] =
-      self
-        .newSimulationTrace(s0, rnd)
-        .takeWhile(e => !stopWhen(e.state))
+      val trace = self.newSimulationTrace(s0, rnd)
+      val splitIndex = trace.indexWhere(e => stopWhen(e.state))
+      if splitIndex == -1 then trace
+      else trace.slice(0, splitIndex + 1)
 
     def nTracesUntil(using
         rnd: Random
@@ -36,13 +37,13 @@ object CTMCSimulation:
         .take(n)
         .toSeq
 
-    def traceOfLength(using rnd: Random)(s0: S)(n: Int): Trace[S] =
-      self.newSimulationTrace(s0, rnd).take(n)
+    def traceOfLength(using rnd: Random)(s0: S)(length: Int): Trace[S] =
+      self.newSimulationTrace(s0, rnd).take(length)
 
     def nTracesOfLength(using
         rnd: Random
-    )(s0: S)(n: Int)(m: Int): Seq[Trace[S]] =
-      LazyList.continually(self.traceOfLength(s0)(n)).take(m).toSeq
+    )(s0: S)(n: Int)(length: Int): Seq[Trace[S]] =
+      LazyList.continually(self.traceOfLength(s0)(n)).take(length).toSeq
 
     def traceUpTo(using rnn: Random)(s0: S)(state: S): Trace[S] =
       self.traceUntil(s0)(_ == state)
