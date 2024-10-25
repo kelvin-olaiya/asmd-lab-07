@@ -22,6 +22,7 @@ object Dependecies {
   val mockitoCore = "org.mockito" % "mockito-core" % "5.14.1" % Test
   val scalaTestMockito =
     "org.scalatestplus" %% "mockito-5-10" % "3.2.18.0" % Test
+  val scalaChart = "de.sciss" %% "scala-chart" % "0.8.0"
   /*
    * Bundles
    */
