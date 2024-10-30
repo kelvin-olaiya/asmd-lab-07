@@ -24,7 +24,7 @@ object Brussellator extends App:
     Trn(MSet(X, X, Y), m => 1.0 * (m(X) * m(Y)), MSet(X, X, X), MSet()),
     Trn(MSet(B, X), m => 1.0 * (m(B) * m(X)), MSet(Y, D), MSet()),
     Trn(MSet(X), m => 1.0 * m(X), MSet(E), MSet()),
-    Trn(MSet(), m => 1.0, MSet(A, B), MSet(A, B))
+    Trn(MSet(), m => 1.0, MSet(A, B), MSet())
   )
 
   extension (n: Int) infix def of(s: Place): Array[Place] = Array.fill(n)(s)
@@ -36,7 +36,7 @@ object Brussellator extends App:
 
   val trace = toCTMC(spn)
     .traceOfLength(
-      MSet(((100 of X) ++ (100 of Y) ++ (100 of A) ++ (300 of B))*)
+      MSet(((100 of X) ++ (100 of Y) ++ (100 of A) ++ (170 of B))*)
     )(20000)
 
   val series = XYSeriesCollection()
